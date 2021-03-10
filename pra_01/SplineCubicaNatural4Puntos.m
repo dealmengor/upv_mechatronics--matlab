@@ -1,8 +1,8 @@
-function out = SplineCubicaNatural4Puntos(Puntos,incremento_real,tiempo_real)
-% Función que calcula una trayectoria Spline Cubica Natural de 4 Puntos
-% Puntos = [P0x P0y;P1x P1y;P2x P2y;P3x P3y];
-% Incremento Real = Tiempo de muestreo
-% Tiempo Real = tiempo total de la trayectoria.
+function out = SplineCubicaNatural4Puntos(Puntos, incremento_real, tiempo_real)
+    % Función que calcula una trayectoria Spline Cubica Natural de 4 Puntos
+    % Puntos = [P0x P0y;P1x P1y;P2x P2y;P3x P3y];
+    % Incremento Real = Tiempo de muestreo
+    % Tiempo Real = tiempo total de la trayectoria.
 
     % Variables de Trabajo
     out = [];
@@ -11,12 +11,12 @@ function out = SplineCubicaNatural4Puntos(Puntos,incremento_real,tiempo_real)
     inc = incremento_real / (tiempo_real / num_tramos);
 
     % Cálculo de Derivadas
-    matriz_inversa = inv([2 1 0; 1 4 1; 0 1 2]);
+    matriz_inversa = inv([2 1 0 0; 1 4 1 0; 0 1 4 1; 0 0 1 2]);
     pts_x = Puntos(:, 1);
     pts_y = Puntos(:, 2);
 
-    dx = matriz_inversa * [3 * (pts_x(2) - pts_x(1)); 3 * (pts_x(3) - pts_x(1)); 3 * (pts_x(3) - pts_x(2))];
-    dy = matriz_inversa * [3 * (pts_y(2) - pts_y(1)); 3 * (pts_y(3) - pts_y(1)); 3 * (pts_y(3) - pts_y(2))];
+    dx = matriz_inversa * [3 * (pts_x(2) - pts_x(1)); 3 * (pts_x(3) - pts_x(1)); 3 * (pts_x(4) - pts_x(2)); 3 * (pts_x(4) - pts_x(3))];
+    dy = matriz_inversa * [3 * (pts_y(2) - pts_y(1)); 3 * (pts_y(3) - pts_y(1)); 3 * (pts_y(4) - pts_y(2)); 3 * (pts_y(4) - pts_y(3))];
 
     % Matriz SCN valores de a,b,c,d
     for i = 1:num_tramos
@@ -40,5 +40,7 @@ function out = SplineCubicaNatural4Puntos(Puntos,incremento_real,tiempo_real)
         end
 
     end
-out = out.';
+
+    %Transposición de Matriz con coordenadas
+    out = out.';
 end

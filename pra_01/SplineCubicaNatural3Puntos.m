@@ -42,5 +42,7 @@ function out = SplineCubicaNatural3Puntos(Puntos, incremento_real, tiempo_real)
         end
 
     end
-out = out.';
+
+    %Transposición de Matriz con coordenadas
+    out = out.';
 end
