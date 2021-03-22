@@ -11,13 +11,13 @@ function TestRecta
     hold on
 
     %Puntos Extremos
-    [m1, b1] = RectaPuntosExtremos(X, Y);
-    y_extremos = m1 * X + b1;
+    [m, b] = RectaPuntosExtremos(X, Y);
+    y_extremos = m * X + b;
     plot(X, y_extremos)
 
     %Mínimos Cuadrados
-    [m2, b2] = RectaMinimosCuadrados(X.', Y.');
-    y_minimos = m2 * X + b2;
+    [m, b] = RectaMinimosCuadrados(X, Y);
+    y_minimos = m * X + b;
     plot(X, y_minimos)
 
     hold off
@@ -33,8 +33,8 @@ end
 %Punto B
 function [m, b] = RectaMinimosCuadrados(x, y)
     % Matriz de Regresión
-    R = [ones(size(x)) x];
-    bm = R\y;
+    R = [ones(size(x)); x];
+    bm = R  y;
     b = bm(1);
     m = bm(2);
 end
