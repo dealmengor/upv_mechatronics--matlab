@@ -24,7 +24,6 @@ function TestRecta
 end
 
 %Punto A
-
 function [m, b] = RectaPuntosExtremos(x, y)
     b = y(1);
     m = (y(end) - y(1)) / (x(end) - x(1));
@@ -34,7 +33,7 @@ end
 function [m, b] = RectaMinimosCuadrados(x, y)
     % Matriz de Regresión
     R = [ones(size(x)) x];
-    bm = R\y;
+    bm = R \ y;
     b = bm(1);
     m = bm(2);
 end
