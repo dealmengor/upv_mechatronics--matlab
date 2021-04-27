@@ -18,7 +18,7 @@ ejecutarCodigoNXC followline
 %Representar la referencia y la estimación de la posición que hace el robot
 hold on
 plot(tiempo_v,intensity_v)
-title('Comportamiento Siguelíneas')
+title('Comportamiento del Siguelíneas')
 ylabel('Intensidad')
 xlabel('Tiempo')
 hold off
