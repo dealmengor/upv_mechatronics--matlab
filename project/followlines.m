@@ -19,11 +19,11 @@ Off(OUT_AC); % paramos los motores
 v = 3;
     
 %% Interfaz Lego-V3 || Esperar al botón central de robot para empezar 
-TextOut(0,LCD_LINE1,'Proyecto Seguidor de Líneas'); % Mostramos por pantalla el tipo de test
+TextOut(0,LCD_LINE1,'Proyecto Seguidor de Caminos'); % Mostramos por pantalla el tipo de test
 TextOut(0,LCD_LINE3,'Presione el boton central');
 TextOut(0,LCD_LINE4,'para que Wall-E comience');
 TextOut(0,LCD_LINE5,'MECATRONICA 2020-2021');
-TextOut(0,LCD_LINE7,'Devs: Alexander-Juan');
+TextOut(0,LCD_LINE7,'Devs: Alexander & Juan');
 while(~ButtonPressed(BTNCENTER))end % Esperamos a pulsar el boton central
 ClearScreen();
 
@@ -51,21 +51,24 @@ while(~ButtonPressed(BTNEXIT))
     TextOut(0,LCD_LINE4,str3);
     str4 = ['Tiempo de Recorrido: ' num2str(tiempo)];
     TextOut(0,LCD_LINE5,str4);
+    
+    %Control de Flujo de Programa
+    switch sentinel
     %Encuentra la línea y sale del modo alcance
-    if sentinel == 0 && intensity >= 39 && intensity <= gray      
-        Off(OUT_AC); % paramos los motores  
-        sentinel = 1;
-    end
+    case 0
+        if intensity >= 39 && intensity <= gray      
+            Off(OUT_AC); % paramos los motores  
+            sentinel = 1;
+        end
     %Aguarda Instrucciones
-    if sentinel == 1
+    case 1
         TextOut(0,LCD_LINE1,'Presione el boton central');
         while(~ButtonPressed(BTNCENTER))end % Esperamos a pulsar el boton central
         sentinel = 2;
         tiempo_sentinel_2 = tiempo;
         ClearScreen();
-    end
     %Inicia el modo de seguimiento
-    if sentinel == 2
+    case 2
         %Velocidad de Crucero
         if intensity >= 46 
             v = 50;
