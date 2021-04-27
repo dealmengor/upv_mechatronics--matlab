@@ -13,7 +13,7 @@ intensity_v = 0;
 tiempo_v = 0;
 disp('--------SEGUIMIENTO TRAYECTORIA--------');
 
-ejecutarCodigoNXC followline
+ejecutarCodigoNXC followlines
 
 %Representar la referencia y la estimación de la posición que hace el robot
 hold on
