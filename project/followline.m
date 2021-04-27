@@ -4,12 +4,11 @@ global tiempo_v;
 
 sentinel = 0;
 gray = 45;
-kp = 5;
+kp = 0;
 b = 0.1213;
 intensity_v = 0;
 tiempo_v = 0;
 tiempo = 0;
-tiempo_sentinel_2 = 0;
 
 %Sensor
 % Informamos que el sensor de color está en el puerto 1
@@ -18,8 +17,6 @@ Off(OUT_AC); % paramos los motores
 
 % Definimos la velocidad de avance nominal
 v = 3;
-
-giro_izquierda = false;
     
 %% Interfaz Lego-V3 || Esperar al botón central de robot para empezar 
 TextOut(0,LCD_LINE1,'Proyecto Seguidor de Líneas'); % Mostramos por pantalla el tipo de test
@@ -71,23 +68,15 @@ while(~ButtonPressed(BTNEXIT))
     if sentinel == 2
         %Velocidad de Crucero
         if intensity >= 46 
-            v = 25;
-            kp = 5;
+            v = 50;
+            kp = 10;
         end
         %Bajar velocidad en curvas
         if intensity >= 25 && intensity <= 39
-            v = 5;
-            kp = 20;
+            v = 20;
+            kp = 15;
         end
-        % Si estamos dentro de la línea negra, giramos a la izquierda
-        if intensity == 12 && tiempo > tiempo_sentinel_2 + 100
-            giro_izquierda = true;
-        end
-        % Si estamos yendo hacia los mozaicos blancos, giramos a la derecha
-        if giro_izquierda && intensity == 60
-            giro_izquierda = false;
-        end
-        [out_av, out_cv] = controlerLine(gray, intensity, kp, b, v, giro_izquierda);
+        [out_av, out_cv] = controlerLine(gray, intensity, kp, b, v);
         % Se asignan velocidades de los motores
         OnFwd(OUT_A, out_av); %rueda izquierda
         OnFwd(OUT_C, out_cv); %rueda derecha
