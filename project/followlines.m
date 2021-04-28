@@ -71,13 +71,13 @@ while(~ButtonPressed(BTNEXIT))
     case 2
         %Velocidad de Crucero
         if intensity >= 46 
-            v = 50;
-            kp = 10;
+            v = 30;
+            kp = 5;
         end
         %Bajar velocidad en curvas
         if intensity >= 25 && intensity <= 39
-            v = 20;
-            kp = 15;
+            v = 10;
+            kp = 7;
         end
         [out_av, out_cv] = controlerLine(gray, intensity, kp, b, v);
         % Se asignan velocidades de los motores
