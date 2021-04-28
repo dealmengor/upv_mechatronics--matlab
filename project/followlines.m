@@ -9,7 +9,8 @@ intensity_v = 0;
 tiempo_v = 0;
 tiempo = 0;
 program_flow_sentinel = 0;
-speed_force_sentinel = 0;
+speed_force_sentinel = 1;
+automatic = true;
 
 %Sensor
 % Informamos que el sensor de color está en el puerto 1
@@ -57,8 +58,10 @@ while(~ButtonPressed(BTNEXIT))
     %Interfaz EV3
     if program_flow_sentinel == 1
         TextOut(0,LCD_LINE2,'Modo: Alcance');
+    elseif automatic == true
+        TextOut(0,LCD_LINE2,'Modo: Seguimiento Auto');
     else
-        TextOut(0,LCD_LINE2,'Modo: Seguimiento');
+        TextOut(0,LCD_LINE2,'Modo: Seguimiento Manual');
     end
     if speed_force_sentinel == 0
         TextOut(0,LCD_LINE3,'Control: Velocidad');
@@ -80,18 +83,22 @@ while(~ButtonPressed(BTNEXIT))
         %Se altera la velocidad
         case 0
         if (ButtonPressed(BTNLEFT)) %Disminuye velocidad
-            v = v - 1;
+            v = v - 0.01;
+            automatic = false;
         end
         if (ButtonPressed(BTNRIGHT)) %Aumenta velocidad
-            v = v + 1;
+            v = v + 0.01;
+            automatic = false;
         end
         %Se altera la ganancia
         case 1
         if (ButtonPressed(BTNLEFT)) %Disminuye ganancia
-            kp = kp - 1;
+            kp = kp - 0.01;
+            automatic = false;
         end
         if (ButtonPressed(BTNRIGHT)) %Aumenta ganancia
-            kp = kp + 1;
+            kp = kp + 0.01;
+            automatic = false;
         end
     end
 
@@ -112,15 +119,17 @@ while(~ButtonPressed(BTNEXIT))
         ClearScreen();
     %Inicia el modo de seguimiento
     case 2
-        %Velocidad de Crucero
-        if intensity >= 46 
-            v = 50;
-            kp = 5;
-        end
-        %Bajar velocidad en curvas
-        if intensity >= 25 && intensity <= 39
-            v = 10;
-            kp = 6;
+        if automatic == true
+            %Velocidad de Crucero
+            if intensity >= 46 
+                v = 50;
+                kp = 5;
+            end
+            %Bajar velocidad en curvas
+            if intensity >= 25 && intensity <= 39 
+                v = 10;
+                kp = 6;
+            end
         end
         [out_av, out_cv] = controlerLine(gray, intensity, kp, b, v);
         % Se asignan velocidades de los motores
