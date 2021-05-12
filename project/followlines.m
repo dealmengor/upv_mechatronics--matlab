@@ -50,8 +50,10 @@ while(~ButtonPressed(BTNEXIT))
     if (ButtonPressed(BTNCENTER))
         if speed_force_sentinel == 0
             speed_force_sentinel = 1;
+            pause(0.05);
         else
             speed_force_sentinel = 0;
+            pause(0.05);
         end
     end
 
